@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_13_154051) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_29_100928) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -55,6 +55,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_13_154051) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["sticker_id"], name: "index_ownerships_on_sticker_id"
+    t.index ["user_id", "sticker_id"], name: "index_ownerships_on_user_id_and_sticker_id", unique: true
     t.index ["user_id"], name: "index_ownerships_on_user_id"
   end
 
