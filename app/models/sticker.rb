@@ -1,6 +1,7 @@
 class Sticker < ApplicationRecord
   belongs_to :user
   has_one_attached :image
+  has_many :ownerships, dependent: :destroy
 
   validate :acceptable_image
   def acceptable_image
