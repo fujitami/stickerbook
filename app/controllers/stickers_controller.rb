@@ -1,21 +1,29 @@
 class StickersController < ApplicationController
-  before_action :require_login
-
+  before_action :require_login, except: [ :index, :show ]
   skip_forgery_protection only: :create
 
+  # 他ユーザーのステッカー一覧
   def index
-    stickers = current_user.stickers.with_attached_image.order(created_at: :desc)
+    user = User.find(params[:user_id])
+    stickers = user.stickers.with_attached_image.includes(:comments, :user).order(created_at: :desc)
     render json: stickers.map { |s| sticker_json(s) }
   end
 
+  # ログイン中ユーザーのステッカー一覧
+  def my_index
+    stickers = current_user.stickers.with_attached_image.includes(:comments, :user).order(created_at: :desc)
+    render json: stickers.map { |s| sticker_json(s) }
+  end
+
+  # ステッカー詳細
   def show
-    s = current_user.stickers.find(params[:id])
+    s = Sticker.find(params[:id])
     render json: sticker_json(s)
   end
 
+  # ステッカー作成
   def create
     s = current_user.stickers.build(caption: params[:caption])
-
     s.image.attach(params[:image]) if params[:image].present?
 
     if s.save
@@ -30,8 +38,17 @@ class StickersController < ApplicationController
   def sticker_json(s)
     {
       id: s.id,
+      user_id: s.user_id,
+      user_name: s.user.name,
       caption: s.caption,
       image_url: (s.image.attached? ? url_for(s.image) : nil),
+      comments: s.comments.map { |c|
+        {
+          id: c.id,
+          body: c.body,
+          user: { id: c.user.id, name: c.user.name }
+        }
+      },
       created_at: s.created_at.iso8601
     }
   end
