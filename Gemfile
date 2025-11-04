@@ -49,3 +49,5 @@ end
 gem "rack-cors", "~> 3.0"
 gem "jbuilder", "~> 2.14"
 gem "bcrypt", "~> 3.1"
+
+gem "slim-rails"

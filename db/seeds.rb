@@ -1,9 +1,10 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+User.first(2).each do |u|
+  2.times do |i|
+    s = u.stickers.create!(
+      title: "Sample #{i+1}",
+      caption: "by #{u.name}",
+      public: true
+    )
+    s.image.attach(io: File.open(Rails.root.join("tmp/storage/image/cat.jpg")), filename: "cat.jpg")
+  end
+end
