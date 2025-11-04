@@ -3,6 +3,9 @@ Rails.application.routes.draw do
   post   "/login",  to: "sessions#create"
   delete "/logout", to: "sessions#destroy", defaults: { format: :json }
 
+  # 接続確認用
+  root "pages#home"
+
   # ステッカー関連
   resources :stickers, only: [ :index, :create, :show ] do
     resources :comments, only: [ :index, :create ]

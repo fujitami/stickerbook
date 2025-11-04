@@ -49,3 +49,10 @@ end
 gem "rack-cors", "~> 3.0"
 gem "jbuilder", "~> 2.14"
 gem "bcrypt", "~> 3.1"
+
+gem "slim-rails"
+gem "tailwindcss-rails", "~> 3.3.2"
+
+gem "propshaft", "~> 1.3"
+
+gem "jsbundling-rails", "~> 1.3"
