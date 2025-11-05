@@ -35,21 +35,30 @@ class StickersController < ApplicationController
 
   private
 
+  # def sticker_json(s)
+  #   {
+  #     id: s.id,
+  #     user_id: s.user_id,
+  #     user_name: s.user.name,
+  #     caption: s.caption,
+  #     image_url: (s.image.attached? ? url_for(s.image) : nil),
+  #     comments: s.comments.map { |c|
+  #       {
+  #         id: c.id,
+  #         body: c.body,
+  #         user: { id: c.user.id, name: c.user.name }
+  #       }
+  #     },
+  #     created_at: s.created_at.iso8601
+  #   }
+  # end
+
   def sticker_json(s)
     {
       id: s.id,
-      user_id: s.user_id,
-      user_name: s.user.name,
       caption: s.caption,
-      image_url: (s.image.attached? ? url_for(s.image) : nil),
-      comments: s.comments.map { |c|
-        {
-          id: c.id,
-          body: c.body,
-          user: { id: c.user.id, name: c.user.name }
-        }
-      },
-      created_at: s.created_at.iso8601
+      user_name: s.user.name,
+      image_url: s.image.attached? ? url_for(s.image) : nil
     }
   end
 end
