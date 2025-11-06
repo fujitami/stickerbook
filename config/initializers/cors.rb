@@ -7,11 +7,11 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins "localhost:3001" # Next.js 開発サーバ
+    origins "http://localhost:3000"  # Next.js の開発サーバ
     resource "*",
       headers: :any,
       expose: [ "Authorization" ],
-      methods: [ :get, :post, :options ],
+      methods: [ :get, :post, :delete, :options ],
       credentials: true
   end
 end
