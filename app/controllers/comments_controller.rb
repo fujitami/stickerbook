@@ -1,18 +1,20 @@
 class CommentsController < ApplicationController
-  before_action :require_login
-  skip_forgery_protection if: -> { request.format.json? }
+  # include Devise::Controllers::Helpers
+  before_action :authenticate_user!, only: [:create]
+  # skip_forgery_protection if: -> { request.format.json? }
+  skip_before_action :verify_authenticity_token, only: [:create]
 
   def index
     sticker = Sticker.find(params[:sticker_id])
     comments = sticker.comments.includes(:user)
-    render json: comments.map { |c| serialize(c) }
+    render json: comments.map { |c| comment_json(c) }
   end
 
   def create
     sticker = Sticker.find(params[:sticker_id])
-    comment = sticker.comments.build(user: current_user, body: params[:body])
+    comment = sticker.comments.build(comment_params.merge(user: current_user))
     if comment.save
-      render json: serialize(comment), status: :created
+      render json: comment_json(comment), status: :created
     else
       render json: { errors: comment.errors.full_messages }, status: :unprocessable_entity
     end
@@ -20,11 +22,15 @@ class CommentsController < ApplicationController
 
   private
 
-  def serialize(comment)
+  def comment_json(comment)
     {
       id: comment.id,
       body: comment.body,
-      user: { id: comment.user.id, name: comment.user.name }
+      user: { id: comment.user.id, email: comment.user.email },
     }
+  end
+
+  def comment_params
+    params.require(:comment).permit(:body)
   end
 end

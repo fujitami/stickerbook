@@ -1,7 +1,12 @@
 class ApplicationController < ActionController::Base
+  # include Devise::Controllers::Helpers
   protect_from_forgery with: :exception
+  skip_forgery_protection if: -> { request.format.json? }
+  # helper_method :current_user
 
-  helper_method :current_user
+  def authenticate_user!
+    require_login
+  end
 
   private
   def current_user
