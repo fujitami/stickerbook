@@ -4,8 +4,14 @@ class StickersController < ApplicationController
 
   # 他ユーザーのステッカー一覧
   def index
-    user = User.find(params[:user_id])
-    stickers = user.stickers.with_attached_image.includes(:comments, :user).order(created_at: :desc)
+    if params[:user_id].present?
+      # 特定ユーザーのステッカー一覧
+      user = User.find(params[:user_id])
+      stickers = user.stickers.with_attached_image.includes(:comments, :user).order(created_at: :desc)
+    else
+      # 全ユーザーのステッカー一覧
+      stickers = Sticker.with_attached_image.includes(:comments, :user).order(created_at: :desc)
+    end
     render json: stickers.map { |s| sticker_json(s) }
   end
 
