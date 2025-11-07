@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  devise_for :users,
+            controllers: {
+              sessions: 'users/sessions'
+            }
+
   post   "/signup", to: "users#create"
   post   "/login",  to: "sessions#create"
   delete "/logout", to: "sessions#destroy", defaults: { format: :json }
@@ -26,4 +31,8 @@ Rails.application.routes.draw do
 
   # 所有の作成・削除
   resources :ownerships, only: [ :create, :destroy ]
+
+  # デバッグ
+  # セッション情報表示
+  get "/debug/session", to: "application#debug_session"
 end

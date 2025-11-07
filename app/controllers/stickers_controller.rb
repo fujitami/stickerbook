@@ -1,5 +1,5 @@
 class StickersController < ApplicationController
-  before_action :require_login, except: [ :index, :show ]
+  skip_before_action :authenticate_user!, only: [ :index, :show ]
   skip_forgery_protection only: :create
 
   # 他ユーザーのステッカー一覧

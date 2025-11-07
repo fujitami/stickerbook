@@ -1,7 +1,5 @@
 class CommentsController < ApplicationController
-  # include Devise::Controllers::Helpers
   before_action :authenticate_user!, only: [:create]
-  # skip_forgery_protection if: -> { request.format.json? }
   skip_before_action :verify_authenticity_token, only: [:create]
 
   def index
@@ -11,6 +9,9 @@ class CommentsController < ApplicationController
   end
 
   def create
+    # デバッグ: current_userの存在確認
+    Rails.logger.info "current_user = #{current_user.inspect}"
+    
     sticker = Sticker.find(params[:sticker_id])
     comment = sticker.comments.build(comment_params.merge(user: current_user))
     if comment.save

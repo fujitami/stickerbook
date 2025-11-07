@@ -1,19 +1,26 @@
 class ApplicationController < ActionController::Base
-  # include Devise::Controllers::Helpers
+  include Devise::Controllers::Helpers
+  before_action :authenticate_user!
+  # APIやcurlからのJSONリクエストではCSRF検証をスキップ
   protect_from_forgery with: :exception
-  skip_forgery_protection if: -> { request.format.json? }
-  # helper_method :current_user
+  skip_before_action :verify_authenticity_token, if: :json_request?
 
-  def authenticate_user!
-    require_login
+  # セッション表示用のデバッグアクション
+  def debug_session
+    render json: { user_signed_in: user_signed_in?, current_user: current_user }
   end
 
   private
   def current_user
+    if respond_to?(:warden)
+      warden_user = warden.user(:user) rescue nil
+      return warden_user if warden_user.present?
+    end
+
     @current_user ||= User.find_by(id: session[:user_id])
   end
 
-  def require_login
-    head :unauthorized unless current_user
+  def json_request?
+    request.format.json? || request.content_type == "application/json"
   end
 end
