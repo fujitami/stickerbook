@@ -1,5 +1,5 @@
 class Ownership < ApplicationRecord
   belongs_to :user
   belongs_to :sticker
-  validates :user_id, uniqueness: { scope: :sticker_id }
+  validates :sticker_id, uniqueness: { scope: :user_id }
 end

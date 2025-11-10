@@ -50,6 +50,8 @@ gem "rack-cors", "~> 3.0"
 gem "jbuilder", "~> 2.14"
 gem "bcrypt", "~> 3.1"
 
+gem "devise"
+
 gem "slim-rails"
 gem "tailwindcss-rails", "~> 3.3.2"
 
