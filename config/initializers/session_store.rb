@@ -3,5 +3,5 @@ Rails.application.config.session_store :cookie_store,
   httponly: true,
   same_site: :lax,
   secure: false
-  # 本番環境では下記の設定に変更
-  # secure: Rails.env.production?
+# 本番環境では下記の設定に変更
+# secure: Rails.env.production?
