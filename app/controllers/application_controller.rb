@@ -1,8 +1,8 @@
 class ApplicationController < ActionController::Base
   include Devise::Controllers::Helpers
-  before_action :authenticate_user!
   # APIやcurlからのJSONリクエストではCSRF検証をスキップ
-  protect_from_forgery with: :exception
+  protect_from_forgery with: :exception, unless: :json_request?
+  before_action :authenticate_user!
   skip_before_action :verify_authenticity_token, if: :json_request?
 
   # セッション表示用のデバッグアクション
