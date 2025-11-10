@@ -14,7 +14,7 @@ class OwnershipsController < ApplicationController
   end
 
   def destroy
-    ownership = current_user.ownerships.find_by(params[:id])
+    ownership = current_user.ownerships.find_by(id: params[:id])
     if ownership&.destroy
       head :no_content
     else
