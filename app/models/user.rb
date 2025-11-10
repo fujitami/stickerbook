@@ -3,6 +3,7 @@ class User < ApplicationRecord
         :recoverable, :rememberable, :validatable
   has_many :stickers, dependent: :destroy
   has_many :ownerships, dependent: :destroy
+  has_many :owned_stickers, through: :ownerships, source: :sticker
   has_many :comments, dependent: :destroy
 
   before_validation { self.email = email.to_s.strip.downcase }

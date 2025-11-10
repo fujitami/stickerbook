@@ -1,12 +1,12 @@
 class OwnershipsController < ApplicationController
-  before_action :require_login
-  skip_forgery_protection if: -> { request.format.json? }
+  before_action :authenticate_user!
+  skip_forgery_protection
 
   def create
     sticker = Sticker.find(params[:sticker_id])
-    ownership = current_user.ownerships.build(sticker:)
+    ownership = current_user.ownerships.create(sticker: sticker)
 
-    if ownership.save
+    if ownership.persisted?
       render json: { message: "owned", sticker_id: sticker.id }, status: :created
     else
       render json: { errors: ownership.errors.full_messages }, status: :unprocessable_entity
@@ -15,11 +15,10 @@ class OwnershipsController < ApplicationController
 
   def destroy
     ownership = current_user.ownerships.find_by(id: params[:id])
-    if ownership
-      ownership.destroy
+    if ownership&.destroy
       head :no_content
     else
-      head :not_found
+      render json: { error: "Not found or not owned" }, status: :not_found
     end
   end
 end
