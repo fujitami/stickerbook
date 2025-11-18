@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   end
 
   private
-  
+
   def json_request?
     request.format.json? || request.content_type == "application/json"
   end
