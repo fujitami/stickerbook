@@ -40,7 +40,7 @@ group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
-  gem "brakeman", require: false
+  gem "brakeman", "~> 7.1.1", require: false
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
@@ -49,3 +49,12 @@ end
 gem "rack-cors", "~> 3.0"
 gem "jbuilder", "~> 2.14"
 gem "bcrypt", "~> 3.1"
+
+gem "devise"
+
+gem "slim-rails"
+gem "tailwindcss-rails", "~> 3.3.2"
+
+gem "propshaft", "~> 1.3"
+
+gem "jsbundling-rails", "~> 1.3"

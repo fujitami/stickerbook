@@ -1,0 +1,24 @@
+doctype html
+html
+  head
+    meta charset="utf-8"
+    title おたがいシール帳
+    / script src="https://cdn.tailwindcss.com" // Tailwind CSS CDN
+
+  body class="bg-slate-50 text-slate-800"
+    main.max-w-3xl.mx-auto.p-6
+      h1.text-2xl.font-bold.mb-4.text-center おたがいシール帳
+
+      - if @stickers.any?
+        ul.grid.grid-cols-2.md:grid-cols-3.gap-4.list-none
+          - @stickers.each do |s|
+            li.bg-white.shadow.rounded-2xl.p-3
+              - if s.image.attached?
+                = image_tag url_for(s.image), alt: s.caption, class: "rounded-xl mb-2"
+              .font-medium= s.caption
+              .text-sm.text-slate-600 by #{s.user.name}
+      - else
+        p.text-center.text-slate-500 まだシールがありません。
+
+      footer.mt-10.text-center.text-xs.text-slate-400
+        | © #{Time.current.year} Stickerbook
