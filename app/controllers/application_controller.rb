@@ -11,15 +11,7 @@ class ApplicationController < ActionController::Base
   end
 
   private
-  def current_user
-    if respond_to?(:warden)
-      warden_user = warden.user(:user) rescue nil
-      return warden_user if warden_user.present?
-    end
-
-    @current_user ||= User.find_by(id: session[:user_id])
-  end
-
+  
   def json_request?
     request.format.json? || request.content_type == "application/json"
   end

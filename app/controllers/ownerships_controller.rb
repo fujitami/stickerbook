@@ -7,7 +7,11 @@ class OwnershipsController < ApplicationController
     ownership = current_user.ownerships.create(sticker: sticker)
 
     if ownership.persisted?
-      render json: { message: "owned", sticker_id: sticker.id }, status: :created
+      render json: {
+        message: "owned",
+        sticker_id: sticker.id,
+        ownership_id: ownership.id
+      }, status: :created
     else
       render json: { errors: ownership.errors.full_messages }, status: :unprocessable_entity
     end
