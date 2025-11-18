@@ -41,30 +41,22 @@ class StickersController < ApplicationController
 
   private
 
-  # def sticker_json(s)
-  #   {
-  #     id: s.id,
-  #     user_id: s.user_id,
-  #     user_name: s.user.name,
-  #     caption: s.caption,
-  #     image_url: (s.image.attached? ? url_for(s.image) : nil),
-  #     comments: s.comments.map { |c|
-  #       {
-  #         id: c.id,
-  #         body: c.body,
-  #         user: { id: c.user.id, name: c.user.name }
-  #       }
-  #     },
-  #     created_at: s.created_at.iso8601
-  #   }
-  # end
-
   def sticker_json(s)
+    ownership = current_user&.ownerships&.find_by(sticker_id: s.id)
+
+    # current_userの存在確認とデバッグ情報の出力
+    Rails.logger.debug "==== sticker_json debug ===="
+    Rails.logger.debug "current_user: #{current_user&.id}"
+    Rails.logger.debug "sticker: #{s.id}"
+    Rails.logger.debug "ownership found: #{ownership&.id}"
+    Rails.logger.debug "============================="
+
     {
       id: s.id,
       caption: s.caption,
-      user_name: s.user.name,
-      image_url: s.image.attached? ? url_for(s.image) : nil
+      image_url: s.image.attached? ? url_for(s.image) : nil,
+      owned: ownership.present?,
+      ownership_id: ownership&.id
     }
   end
 end
