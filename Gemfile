@@ -53,7 +53,7 @@ gem "bcrypt", "~> 3.1"
 gem "devise"
 
 gem "slim-rails"
-gem "tailwindcss-rails", "~> 3.3.2"
+gem "tailwindcss-rails", "~> 4.4.0"
 
 gem "propshaft", "~> 1.3"
 
